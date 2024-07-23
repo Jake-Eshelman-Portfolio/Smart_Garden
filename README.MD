@@ -13,14 +13,10 @@ driver development, and motor control.
 - Integration of ADC for sensor data acquisition
 
 ## Components
-- nRF52 Development Kit (nRF52dk)
-- Capacitive soil moisture sensors
-- ADS1115 ADC (if additional ADC channels are required)
-- Small water pump or stepper motor
-- L298N motor driver
-- 12V power adapter (or suitable power supply)
-- Relays or transistors
-- Resistors and capacitors
+- nRF52 Development Kit (nRF52dk) 
+- Capacitive soil moisture sensors -- https://www.tindie.com/products/miceuz/i2c-soil-moisture-sensor/, documentation: https://github.com/Miceuz/i2c-moisture-sensor/blob/master/README.md
+- Small water pump and tubing -- Gikfun 12V DC Dosing Pump Peristaltic (Amazon)
+- L298N motor driver -- powered with a 12V battery, powering the nRF52dk via 5V power.
 - Jumper wires
 
 ## Schematic
