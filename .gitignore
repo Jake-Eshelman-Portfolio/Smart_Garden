@@ -1,0 +1,57 @@
+# Build directories
+build/
+obj/
+out/
+bin/
+
+# Compiled object files
+*.o
+*.obj
+
+# Compiled static libraries
+*.lib
+*.a
+
+# Compiled dynamic libraries
+*.dll
+*.so
+*.dylib
+
+# Executable files
+*.exe
+*.out
+*.app
+
+# Debugger files
+*.dSYM/
+*.map
+*.elf
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.user
+
+# FreeRTOS specific
+FreeRTOS/Source/portable/MemMang/heap_*
+
+# nRF SDK specific
+nRF5_SDK_*/
+components/
+examples/
+external/
+libraries/
+modules/
+toolchain/
+config/
+
+# Other
+*.DS_Store
