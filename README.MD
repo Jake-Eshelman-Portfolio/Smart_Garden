@@ -24,8 +24,7 @@ The skills I wanted to work on in this project are analog signal handling, learn
 
 ## Software
 
-### FreeRTOS Setup
-[Instructions for setting up FreeRTOS on the nRF52dk]
+
 
 ### Dependencies
 
@@ -37,10 +36,10 @@ The skills I wanted to work on in this project are analog signal handling, learn
     - I2C3 was added wil GPIO pullups configured. 
         - SCL: PA8 
         - SDA: PC9
-- The project was built for STM32CubeIDE
+    - Middleware: FreeRTOS configured as middleware with default settings.
+- The project was built for STM32CubeIDE.
 
 ### Usage
-
 
 ## Future Enhancements
 - LED screen for displaying plant watering status
