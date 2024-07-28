@@ -31,7 +31,13 @@ The skills I wanted to work on in this project are analog signal handling, learn
 
 
 ### Building and Flashing
-
+- The project was built using STM32CubeMX with default settings for the board: STM32F429ZITx - STM32F429I-DISC1 except for ADC and I2C changes.
+    - ADC 1 was enabled with mode IN5 added.
+        - Input: PA5
+    - I2C3 was added wil GPIO pullups configured. 
+        -SCL: PA8 
+        -SDA: PC9
+- The project was built for STM32CubeIDE
 
 ### Usage
 
