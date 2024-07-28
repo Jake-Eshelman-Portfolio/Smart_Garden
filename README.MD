@@ -35,8 +35,8 @@ The skills I wanted to work on in this project are analog signal handling, learn
     - ADC 1 was enabled with mode IN5 added.
         - Input: PA5
     - I2C3 was added wil GPIO pullups configured. 
-        -SCL: PA8 
-        -SDA: PC9
+        - SCL: PA8 
+        - SDA: PC9
 - The project was built for STM32CubeIDE
 
 ### Usage
