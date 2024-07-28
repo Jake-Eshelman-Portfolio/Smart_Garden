@@ -1,10 +1,9 @@
 # Plant Watering System with nRF52dk and FreeRTOS
 
 ## Overview
-This project automates the watering of plants using an nRF52 Development Kit (nRF52dk) and FreeRTOS. 
-It utilizes moisture sensors to monitor soil moisture levels and controls a water pump to irrigate the plants when necessary. 
-The skills I wanted to work on in this project are signal handling, learning FreeRTOS, object oriented design with C++, 
-driver development, and motor control.
+This project automates the watering of plants using an STM32F429 Development Kit and FreeRTOS. 
+It utilizes moisture sensors to monitor soil and controls a water pump to irrigate the plants when necessary. 
+The skills I wanted to work on in this project are analog signal handling, learning FreeRTOS and STM microcontrollers, motor control, and power supply.
 
 ## Features
 - Soil moisture monitoring
@@ -13,7 +12,7 @@ driver development, and motor control.
 - Integration of ADC for sensor data acquisition
 
 ## Components
-- nRF52 Development Kit (nRF52dk) 
+- STM32F429 Development Kit (https://www.digikey.com/en/products/detail/stmicroelectronics/STM32F429I-DISC1/5731713) 
 - Capacitive soil moisture sensors -- https://www.tindie.com/products/miceuz/i2c-soil-moisture-sensor/, documentation: https://github.com/Miceuz/i2c-moisture-sensor/blob/master/README.md, also purchased 4 pin 90 degree header to attach
 - Small water pump -- Gikfun 12V DC Dosing Pump Peristaltic (Amazon)
     - Tubing -- Gikfun 9.84 Ft 2mm x 4mm tubing (Amazon)
