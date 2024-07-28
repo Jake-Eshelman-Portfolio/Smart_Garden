@@ -38,6 +38,7 @@ The skills I wanted to work on in this project are analog signal handling, learn
         - SDA: PC9
     - Middleware: FreeRTOS configured as middleware with default settings.
 - The project was built for STM32CubeIDE.
+- Motor driving GPIOs: PA0, PA1 to L298 In1 In2
 
 ### Usage
 
@@ -47,6 +48,8 @@ The skills I wanted to work on in this project are analog signal handling, learn
 - Extension to handling multiple plants
 - Custom PCB / Case
 
+## External Documentation
+- L298N Motor Driver Datasheet: https://components101.com/sites/default/files/component_datasheet/L298N-Motor-Driver-Datasheet.pdf
 
 
 
