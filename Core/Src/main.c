@@ -20,6 +20,8 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "usb_host.h"
+#include "motor_driver.h"
+#include "board_layout.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -129,7 +131,13 @@ int main(void)
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   MX_TIM9_Init();
+  Motor_Init();
   /* USER CODE BEGIN 2 */
+
+  char msg[] = "Init complete!\r\n";
+  HAL_UART_Transmit(&huart1, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
+
+  //Motor_SetSpeed(500);  // Set speed (0-65535 for 16-bit timer)
 
   /* USER CODE END 2 */
 
@@ -151,15 +159,15 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 4096);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  //osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 4096);
+  //defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-  osKernelStart();
+  //osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
 
@@ -168,6 +176,10 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+	  //Motor_SetSpeed(500);  // Set speed (0-65535 for 16-bit timer)
+	  Motor_Forward();
+	  HAL_Delay(2000);  // Run forward for 2 seconds
+	  Motor_Stop();
 
     /* USER CODE BEGIN 3 */
   }

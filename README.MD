@@ -56,6 +56,9 @@ The skills I wanted to work on in this project are analog signal handling, learn
 - Extension to handling multiple plants
 - Custom PCB / Case
 
+## External Documentation
+- STM32F439 HAL user manual: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__gpio__exported__functions__group2.html
+
 
 
 
