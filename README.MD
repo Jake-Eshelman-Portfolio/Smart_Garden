@@ -54,6 +54,10 @@ The skills I wanted to work on in this project are analog signal handling, learn
 
 - The project was built for STM32CubeIDE
 
+## Progress
+- Currently the motor driver is connected and functioning correctly. Still waiting on the moisture sensor to arrive to build out feedback / control systems (8/1/24).
+https://drive.google.com/file/d/1gY22B0iSNcU8m8TwlX8VpE6k7BG8msSk/view?usp=drive_link
+
 ### Usage
 
 ## Future Enhancements
