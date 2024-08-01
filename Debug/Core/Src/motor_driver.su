@@ -1,0 +1,5 @@
+../Core/Src/motor_driver.c:23:6:Motor_Init	8	static
+../Core/Src/motor_driver.c:28:6:Motor_SetSpeed	16	static
+../Core/Src/motor_driver.c:34:6:Motor_Forward	8	static
+../Core/Src/motor_driver.c:40:6:Motor_Backward	8	static
+../Core/Src/motor_driver.c:46:6:Motor_Stop	8	static

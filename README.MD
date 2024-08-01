@@ -30,15 +30,24 @@ The skills I wanted to work on in this project are analog signal handling, learn
 
 
 ### Building and Flashing
-- The project was built using STM32CubeMX with default settings for the board: STM32F429ZITx - STM32F429I-DISC1 except for ADC and I2C changes.
+- The project was built using STM32CubeMX with default settings for the board: STM32F429ZITx - STM32F429I-DISC1 except for ADC, GPIO, and I2C changes.
     - ADC 1 was enabled with mode IN5 added.
         - Input: PA5
-    - I2C3 was added wil GPIO pullups configured. 
+    - I2C3 was added with GPIO pullups configured. 
         - SCL: PA8 
         - SDA: PC9
-    - Middleware: FreeRTOS configured as middleware with default settings.
-- The project was built for STM32CubeIDE.
-- Motor driving GPIOs: PA0, PA1 to L298 In1 In2
+    - TIM9 was configured with PWM generation on CH1 on pin PE5
+        1. Calculating PWM Frequency: APB1 Frequency = (Desired PWM Frequency) * (Prescalar + 1) * (Auto reload register + 1)
+            - 72,000,000 = 10,000 * (PSC + 1) * (ARR + 1)
+                - PSC = 71 (For easy calculation),
+                - ARR = 99 to give 10kHZ PWM frequency
+        2. Duty Cycle = Counter Period (ARR) / X
+            - X = 2 -> 50% Duty Cycle
+        3. Motor output GPIOS:
+            - PC1, PC2 configured as:
+                - output level: low, push pull, no pull-up/pull-down
+
+- The project was built for STM32CubeIDE
 
 ### Usage
 
@@ -50,6 +59,8 @@ The skills I wanted to work on in this project are analog signal handling, learn
 
 ## External Documentation
 - L298N Motor Driver Datasheet: https://components101.com/sites/default/files/component_datasheet/L298N-Motor-Driver-Datasheet.pdf
+- STM32F439 HAL user manual: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__gpio__exported__functions__group2.html
+
 
 
 
