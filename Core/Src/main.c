@@ -20,11 +20,10 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "usb_host.h"
-#include "motor_driver.h"
-#include "board_layout.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "motor_driver.h"
 
 /* USER CODE END Includes */
 
@@ -131,8 +130,8 @@ int main(void)
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   MX_TIM9_Init();
-  Motor_Init();
   /* USER CODE BEGIN 2 */
+  Motor_Init();
 
   char msg[] = "Init complete!\r\n";
   HAL_UART_Transmit(&huart1, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
@@ -176,12 +175,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  //Motor_SetSpeed(500);  // Set speed (0-65535 for 16-bit timer)
-	  Motor_Forward();
-	  HAL_Delay(2000);  // Run forward for 2 seconds
-	  Motor_Stop();
 
     /* USER CODE BEGIN 3 */
+
+	  Motor_Forward();
+	  HAL_Delay(2000);  // Delay for 2000 milliseconds (2 seconds)
+	  Motor_Stop();
+	  HAL_Delay(2000);  // Delay for another 2 seconds before repeating
   }
   /* USER CODE END 3 */
 }
@@ -684,7 +684,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, NCS_MEMS_SPI_Pin|CSX_Pin|OTG_FS_PSO_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, Motor1_Pin|Motor2_Pin|OTG_FS_PSO_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(ACP_RST_GPIO_Port, ACP_RST_Pin, GPIO_PIN_RESET);
@@ -695,8 +695,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOG, LD3_Pin|LD4_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : NCS_MEMS_SPI_Pin CSX_Pin OTG_FS_PSO_Pin */
-  GPIO_InitStruct.Pin = NCS_MEMS_SPI_Pin|CSX_Pin|OTG_FS_PSO_Pin;
+  /*Configure GPIO pins : Motor1_Pin Motor2_Pin OTG_FS_PSO_Pin */
+  GPIO_InitStruct.Pin = Motor1_Pin|Motor2_Pin|OTG_FS_PSO_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

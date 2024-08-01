@@ -89,10 +89,10 @@ void Error_Handler(void);
 #define PH1_OSC_OUT_GPIO_Port GPIOH
 #define SDNWE_Pin GPIO_PIN_0
 #define SDNWE_GPIO_Port GPIOC
-#define NCS_MEMS_SPI_Pin GPIO_PIN_1
-#define NCS_MEMS_SPI_GPIO_Port GPIOC
-#define CSX_Pin GPIO_PIN_2
-#define CSX_GPIO_Port GPIOC
+#define Motor1_Pin GPIO_PIN_1
+#define Motor1_GPIO_Port GPIOC
+#define Motor2_Pin GPIO_PIN_2
+#define Motor2_GPIO_Port GPIOC
 #define B1_Pin GPIO_PIN_0
 #define B1_GPIO_Port GPIOA
 #define MEMS_INT1_Pin GPIO_PIN_1

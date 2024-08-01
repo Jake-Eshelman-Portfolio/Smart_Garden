@@ -5,9 +5,8 @@
  *      Author: jakee
  */
 /*
- * GPIO_PIN_0 = PA0
- * GPIO_PIN_1 = PA1
- *
+ * GPIO_PIN_1 = PC1
+ * GPIO_PIN_2 = PC2
  *
  *
  */
@@ -34,18 +33,18 @@ void Motor_SetSpeed(uint16_t speed)
 
 void Motor_Forward(void)
 {
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);    // IN1 High
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);  // IN2 Low
+    HAL_GPIO_WritePin(Motor1_GPIO_Port, Motor1_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(Motor2_GPIO_Port, Motor2_Pin, GPIO_PIN_RESET);
 }
 
 void Motor_Backward(void)
 {
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);  // IN1 Low
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);    // IN2 High
+    HAL_GPIO_WritePin(Motor1_GPIO_Port, Motor1_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(Motor2_GPIO_Port, Motor2_Pin, GPIO_PIN_SET);
 }
 
 void Motor_Stop(void)
 {
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);  // IN1 Low
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);  // IN2 Low
+    HAL_GPIO_WritePin(Motor1_GPIO_Port, Motor1_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(Motor2_GPIO_Port, Motor2_Pin, GPIO_PIN_RESET);
 }

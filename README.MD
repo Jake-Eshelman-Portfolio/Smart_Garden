@@ -44,6 +44,9 @@ The skills I wanted to work on in this project are analog signal handling, learn
                 - ARR = 99 to give 10kHZ PWM frequency
         2. Duty Cycle = Counter Period / X
             - X = 50 -> 50% Duty Cycle
+        3. Motor output GPIOS:
+            - PC1, PC2 configured as:
+                - output level: low, push pull, no pull-up/pull-down
 
 - The project was built for STM32CubeIDE
 
