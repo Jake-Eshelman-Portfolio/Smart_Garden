@@ -21,6 +21,11 @@ The skills I wanted to work on in this project are analog signal handling, learn
 - L298N motor driver (Amazon)
 
 ## Schematic
+- The I2C connector used in the project is not present in Fritzing, and a generic I2C sensor was used in its place to demonstrate pin connections
+- Fritzing diagram included: diagrams/breadbiard_diagram.fzz
+![Fritzing Breadboard Diagram](images/smart_garden_breadboard_diagram.png)
+
+
 
 ## Software
 
