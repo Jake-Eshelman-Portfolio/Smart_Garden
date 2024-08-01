@@ -132,7 +132,7 @@ int main(void)
   MX_TIM9_Init();
   /* USER CODE BEGIN 2 */
   Motor_Init();
-  Motor_SetSpeed(65535);
+  Motor_SetSpeed(100);
 
   char msg[] = "Init complete!\r\n";
   HAL_UART_Transmit(&huart1, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
@@ -180,9 +180,9 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  Motor_Forward();
-	  HAL_Delay(2000);  // Delay for 2000 milliseconds (2 seconds)
+	  HAL_Delay(2000);
 	  Motor_Stop();
-	  HAL_Delay(2000);  // Delay for another 2 seconds before repeating
+	  HAL_Delay(2000);
   }
   /* USER CODE END 3 */
 }
