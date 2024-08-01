@@ -132,6 +132,7 @@ int main(void)
   MX_TIM9_Init();
   /* USER CODE BEGIN 2 */
   Motor_Init();
+  Motor_SetSpeed(65535);
 
   char msg[] = "Init complete!\r\n";
   HAL_UART_Transmit(&huart1, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
