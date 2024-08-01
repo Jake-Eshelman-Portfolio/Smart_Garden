@@ -37,6 +37,14 @@ The skills I wanted to work on in this project are analog signal handling, learn
     - I2C3 was added wil GPIO pullups configured. 
         - SCL: PA8 
         - SDA: PC9
+    - TIM9 was configured with PWM generation on CH1 on pin PE5
+        1. Calculating PWM Frequency: APB1 Frequency = (Desired PWM Frequency) * (Prescalar + 1) * (Auto reload register + 1)
+            - 72,000,000 = 10,000 * (PSC + 1) * (ARR + 1)
+                - PSC = 71 (For easy calculation),
+                - ARR = 99 to give 10kHZ PWM frequency
+        2. Duty Cycle = Counter Period / X
+            - X = 50 -> 50% Duty Cycle
+
 - The project was built for STM32CubeIDE
 
 ### Usage
