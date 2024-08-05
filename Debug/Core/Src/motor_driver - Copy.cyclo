@@ -1,0 +1,5 @@
+../Core/Src/motor_driver - Copy.c:23:6:Motor_Init	1
+../Core/Src/motor_driver - Copy.c:28:6:Motor_SetSpeed	1
+../Core/Src/motor_driver - Copy.c:34:6:Motor_Forward	1
+../Core/Src/motor_driver - Copy.c:40:6:Motor_Backward	1
+../Core/Src/motor_driver - Copy.c:46:6:Motor_Stop	1

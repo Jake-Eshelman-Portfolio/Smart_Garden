@@ -1,0 +1,2 @@
+../Core/Src/i2c_driver.c:28:6:MX_I2C3_Init	8	static
+../Core/Src/i2c_driver.c:77:6:read_temperature	32	static

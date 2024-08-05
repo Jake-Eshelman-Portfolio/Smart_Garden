@@ -1,4 +1,4 @@
-Core/Src/motor_driver.o: ../Core/Src/motor_driver.c \
+Core/Src/motor_driver - Copy.o: ../Core/Src/motor_driver\ -\ Copy.c \
  ../Core/Inc/motor_driver.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
