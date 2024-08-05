@@ -12,12 +12,14 @@
 
 #define SENSOR_ADDRESS 0x20
 #define TEMPERATURE_REGISTER 0x05
-#define REGISTER_SIZE 0x02
+#define BUSY_REGISTER 0x09
+#define TEMPERATURE_READ_SIZE 0x02
 
 extern I2C_HandleTypeDef hi2c3;
 
 void MX_I2C3_Init(void);
 void read_temperature();
+void sensor_diagnostic();
 
 
 

@@ -138,6 +138,7 @@ int main(void)
 
   char msg[] = "Init complete!\r\n";
   HAL_UART_Transmit(&huart1, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
+  //sensor_diagnostic();
 
 
   //Motor_SetSpeed(500);  // Set speed (0-65535 for 16-bit timer)
@@ -183,7 +184,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  //Motor_Forward();
-	  HAL_Delay(2000);
+	  HAL_Delay(5000);
 	  read_temperature();
 	  //Motor_Stop();
 	  //HAL_Delay(2000);
