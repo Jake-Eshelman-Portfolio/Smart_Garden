@@ -1,3 +1,4 @@
 ../Core/Src/i2c_driver.c:28:6:MX_I2C3_Init	8	static
-../Core/Src/i2c_driver.c:77:6:read_temperature	40	static
-../Core/Src/i2c_driver.c:110:6:sensor_diagnostic	32	static
+../Core/Src/i2c_driver.c:76:6:read_temperature	40	static
+../Core/Src/i2c_driver.c:119:6:read_capacitance	40	static
+../Core/Src/i2c_driver.c:154:6:sensor_diagnostic	32	static

@@ -136,8 +136,8 @@ int main(void)
   Motor_Init();
   Motor_SetSpeed(100);
 
-  char msg[] = "Init complete!\r\n";
-  HAL_UART_Transmit(&huart1, (uint8_t*)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
+  printf("Initialization complete!\r\n");
+
   //sensor_diagnostic();
 
 
@@ -185,7 +185,8 @@ int main(void)
 
 	  //Motor_Forward();
 	  HAL_Delay(5000);
-	  read_temperature();
+	  //read_temperature();
+	  read_capacitance();
 	  //Motor_Stop();
 	  //HAL_Delay(2000);
   }

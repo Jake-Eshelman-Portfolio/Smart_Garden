@@ -73,38 +73,82 @@ void MX_I2C3_Init(void)
   * @param None
   * @retval None
   */
-
 void read_temperature()
 {
 	uint8_t temperature_data[2];
-	uint8_t busy_data;
+	uint8_t busy_data = 1;
 
 	HAL_StatusTypeDef status;
 
-	// Sensor reads once for previous value then updates with recent value. Get old value first to update register
-	status = HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1, TEMPERATURE_REGISTER, I2C_MEMADD_SIZE_8BIT, temperature_data, TEMPERATURE_READ_SIZE, HAL_MAX_DELAY);
+	// Sensor reads once for previous value then updates with recent value. Get old value first to update register.
+	status = HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1, TEMPERATURE_REGISTER,
+			I2C_MEMADD_SIZE_8BIT, temperature_data, TEMPERATURE_READ_SIZE,
+			HAL_MAX_DELAY);
 
+	if (status != HAL_OK) {
+		printf("Initial temperature read failed with status: %d \r\n", status);
+		return;
+	}
 
-     // Wait for measurement to complete
-    busy_data = 1;
+    // Wait for measurement to complete
     while (busy_data == 1)
     {
-        HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1 , BUSY_REGISTER, I2C_MEMADD_SIZE_8BIT, &busy_data, 1, HAL_MAX_DELAY);
+        HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1 , BUSY_REGISTER, I2C_MEMADD_SIZE_8BIT, &busy_data, BUSY_DATA_SIZE, HAL_MAX_DELAY);
         HAL_Delay(10); // Short delay to avoid flooding the I2C bus -- add a timeout here too probably
     }
 
+	// Read the updated temperature value and print it on success
 	status = HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1, TEMPERATURE_REGISTER, I2C_MEMADD_SIZE_8BIT, temperature_data, TEMPERATURE_READ_SIZE, HAL_MAX_DELAY);
 	if (status == HAL_OK)
 	{
 		uint16_t combined_temperature = temperature_data[0] << 8 | temperature_data[1];
-		printf("Temperature read successfully from sensor: %d \r\n", combined_temperature);
+		printf("Temperature: %d \r\n", combined_temperature);
 	}
 	else
 	{
-		printf("Temperature failed with status: %d \r\n", status);
+		printf("Temperature read failed with status: %d \r\n", status);
 	}
-	fflush(stdout); // Ensure buffer is flushed
+}
 
+
+/**
+  * @brief Function to read the capacitance from the sensor
+  * @param None
+  * @retval None
+  */
+void read_capacitance()
+{
+	uint8_t capacitance_data[2];
+	uint8_t busy_data = 1;
+
+	HAL_StatusTypeDef status;
+
+	// Sensor reads once for previous value then updates with recent value. Get old value first to update register.
+	status = HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1, CAPACITANCE_REGISTER, I2C_MEMADD_SIZE_8BIT, capacitance_data, CAPACITANCE_READ_SIZE, HAL_MAX_DELAY);
+
+	if (status != HAL_OK) {
+		printf("Initial capacitance read failed with status: %d \r\n", status);
+		return;
+	}
+
+    // Wait for measurement to complete
+    while (busy_data == 1)
+    {
+        HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1 , BUSY_REGISTER, I2C_MEMADD_SIZE_8BIT, &busy_data, BUSY_DATA_SIZE, HAL_MAX_DELAY);
+        HAL_Delay(10); // Short delay to avoid flooding the I2C bus -- add a timeout here too probably
+    }
+
+	// Read the updated capacitance value and print it on success
+	status = HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1, CAPACITANCE_REGISTER, I2C_MEMADD_SIZE_8BIT, capacitance_data, CAPACITANCE_READ_SIZE, HAL_MAX_DELAY);
+	if (status == HAL_OK)
+	{
+		uint16_t combinted_capacitance = capacitance_data[0] << 8 | capacitance_data[1];
+		printf("Capacitance: %d \r\n", combinted_capacitance);
+	}
+	else
+	{
+		printf("Capacitance read failed with status: %d \r\n", status);
+	}
 }
 
 void sensor_diagnostic()
@@ -117,17 +161,9 @@ void sensor_diagnostic()
     printf("Sensor version: 0x%02X, Status: %d\r\n", data[0], status);
 
     // Reset sensor
-    status = HAL_I2C_Mem_Write(&hi2c3, SENSOR_ADDRESS << 1, 0x06, I2C_MEMADD_SIZE_8BIT, NULL, 0, HAL_MAX_DELAY);
+    status = HAL_I2C_Mem_Write(&hi2c3, SENSOR_ADDRESS << 1, RESET_REGISTER, I2C_MEMADD_SIZE_8BIT, NULL, 0, HAL_MAX_DELAY);
     printf("Reset status: %d\r\n", status);
-    HAL_Delay(100); // Wait after reset
-
-    // Trigger temperature measurement
-    status = HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1, 0x05, I2C_MEMADD_SIZE_8BIT, data, 2, HAL_MAX_DELAY);
-    printf("Temperature trigger status: %d\r\n", status);
-
-    // Immediately check busy status
-    status = HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1, 0x09, I2C_MEMADD_SIZE_8BIT, data, 1, HAL_MAX_DELAY);
-    printf("Immediate busy status: %d, Value: %d\r\n", status, data[0]);
+    HAL_Delay(100);
 
 
     // Read light
