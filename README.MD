@@ -1,4 +1,4 @@
-# Plant Watering System with nRF52dk and FreeRTOS
+# Plant Watering System with STM32F429 and FreeRTOS
 
 ## Overview
 This project automates the watering of plants using an STM32F429 Development Kit and FreeRTOS. 
@@ -54,6 +54,10 @@ The skills I wanted to work on in this project are analog signal handling, learn
 
 - The project was built for STM32CubeIDE
 
+## Progress
+- Currently the motor driver is connected and functioning correctly. Still waiting on the moisture sensor to arrive to build out feedback / control systems (8/1/24).
+https://drive.google.com/file/d/1gY22B0iSNcU8m8TwlX8VpE6k7BG8msSk/view?usp=drive_link
+
 ### Usage
 
 ## Future Enhancements
@@ -65,6 +69,7 @@ The skills I wanted to work on in this project are analog signal handling, learn
 ## External Documentation
 - L298N Motor Driver Datasheet: https://components101.com/sites/default/files/component_datasheet/L298N-Motor-Driver-Datasheet.pdf
 - STM32F439 HAL user manual: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__gpio__exported__functions__group2.html
+- STM32F429 HAL user manual: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__i2c__exported__functions__group2.html
 
 
 
