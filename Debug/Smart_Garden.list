@@ -7,19 +7,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         0000a950  080001b0  080001b0  000011b0  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000200  0800ab00  0800ab00  0000bb00  2**2
+  2 .rodata       000001c0  0800ab00  0800ab00  0000bb00  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  0800ad00  0800ad00  0000c06c  2**0
+  3 .ARM.extab    00000000  0800acc0  0800acc0  0000c06c  2**0
                   CONTENTS
-  4 .ARM          00000008  0800ad00  0800ad00  0000bd00  2**2
+  4 .ARM          00000008  0800acc0  0800acc0  0000bcc0  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  0800ad08  0800ad08  0000c06c  2**0
+  5 .preinit_array 00000000  0800acc8  0800acc8  0000c06c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  0800ad08  0800ad08  0000bd08  2**2
+  6 .init_array   00000004  0800acc8  0800acc8  0000bcc8  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .fini_array   00000004  0800ad0c  0800ad0c  0000bd0c  2**2
+  7 .fini_array   00000004  0800accc  0800accc  0000bccc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .data         0000006c  20000000  0800ad10  0000c000  2**2
+  8 .data         0000006c  20000000  0800acd0  0000c000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
   9 .ccmram       00000000  10000000  10000000  0000c06c  2**0
                   CONTENTS
@@ -626,7 +626,7 @@ void read_capacitance()
  80006aa:	4313      	orrs	r3, r2
  80006ac:	b21b      	sxth	r3, r3
  80006ae:	81bb      	strh	r3, [r7, #12]
-		printf("capacitance read successfully from sensor: %d \r\n", combinted_capacitance);
+		printf("Capacitance: %d \r\n", combinted_capacitance);
  80006b0:	89bb      	ldrh	r3, [r7, #12]
  80006b2:	4619      	mov	r1, r3
  80006b4:	4807      	ldr	r0, [pc, #28]	@ (80006d4 <read_capacitance+0xbc>)
@@ -635,7 +635,7 @@ void read_capacitance()
 	}
 	else
 	{
-		printf("capacitance read failed with status: %d \r\n", status);
+		printf("Capacitance read failed with status: %d \r\n", status);
  80006bc:	7bfb      	ldrb	r3, [r7, #15]
  80006be:	4619      	mov	r1, r3
  80006c0:	4805      	ldr	r0, [pc, #20]	@ (80006d8 <read_capacitance+0xc0>)
@@ -646,9 +646,9 @@ void read_capacitance()
  80006c8:	46bd      	mov	sp, r7
  80006ca:	bd80      	pop	{r7, pc}
  80006cc:	20000088 	.word	0x20000088
- 80006d0:	0800ab94 	.word	0x0800ab94
- 80006d4:	0800abc8 	.word	0x0800abc8
- 80006d8:	0800abfc 	.word	0x0800abfc
+ 80006d0:	0800ab74 	.word	0x0800ab74
+ 80006d4:	0800aba8 	.word	0x0800aba8
+ 80006d8:	0800abbc 	.word	0x0800abbc
 
 080006dc <main>:
 /**
@@ -724,7 +724,7 @@ int main(void)
 	  HAL_Delay(5000);
  8000730:	bf00      	nop
  8000732:	e7f7      	b.n	8000724 <main+0x48>
- 8000734:	0800ac98 	.word	0x0800ac98
+ 8000734:	0800ac58 	.word	0x0800ac58
 
 08000738 <_write>:
   /* USER CODE END 3 */
@@ -4235,7 +4235,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  8001a68:	2000006c 	.word	0x2000006c
   ldr r2, =_sidata
- 8001a6c:	0800ad10 	.word	0x0800ad10
+ 8001a6c:	0800acd0 	.word	0x0800acd0
   ldr r2, =_sbss
  8001a70:	2000006c 	.word	0x2000006c
   ldr r4, =_ebss
@@ -15608,7 +15608,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
  8005faa:	bf00      	nop
  8005fac:	40023c00 	.word	0x40023c00
  8005fb0:	40023800 	.word	0x40023800
- 8005fb4:	0800acb4 	.word	0x0800acb4
+ 8005fb4:	0800ac74 	.word	0x0800ac74
  8005fb8:	20000000 	.word	0x20000000
  8005fbc:	20000004 	.word	0x20000004
 
@@ -15910,7 +15910,7 @@ uint32_t HAL_RCC_GetPCLK1Freq(void)
  8006200:	4618      	mov	r0, r3
  8006202:	bd80      	pop	{r7, pc}
  8006204:	40023800 	.word	0x40023800
- 8006208:	0800acc4 	.word	0x0800acc4
+ 8006208:	0800ac84 	.word	0x0800ac84
 
 0800620c <HAL_RCC_GetPCLK2Freq>:
   * @note   Each time PCLK2 changes, this function must be called to update the
@@ -15936,7 +15936,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
  8006228:	4618      	mov	r0, r3
  800622a:	bd80      	pop	{r7, pc}
  800622c:	40023800 	.word	0x40023800
- 8006230:	0800acc4 	.word	0x0800acc4
+ 8006230:	0800ac84 	.word	0x0800ac84
 
 08006234 <HAL_RCC_GetClockConfig>:
   * will be configured.
@@ -26711,10 +26711,10 @@ USBH_StatusTypeDef USBH_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800a21a:	4798      	blx	r3
  800a21c:	3601      	adds	r6, #1
  800a21e:	e7f2      	b.n	800a206 <__libc_init_array+0x1e>
- 800a220:	0800ad08 	.word	0x0800ad08
- 800a224:	0800ad08 	.word	0x0800ad08
- 800a228:	0800ad08 	.word	0x0800ad08
- 800a22c:	0800ad0c 	.word	0x0800ad0c
+ 800a220:	0800acc8 	.word	0x0800acc8
+ 800a224:	0800acc8 	.word	0x0800acc8
+ 800a228:	0800acc8 	.word	0x0800acc8
+ 800a22c:	0800accc 	.word	0x0800accc
 
 0800a230 <__retarget_lock_init_recursive>:
  800a230:	4770      	bx	lr
@@ -27074,11 +27074,11 @@ USBH_StatusTypeDef USBH_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800a550:	4630      	mov	r0, r6
  800a552:	f000 f879 	bl	800a648 <_printf_i>
  800a556:	e7e4      	b.n	800a522 <_vfiprintf_r+0x1e6>
- 800a558:	0800accc 	.word	0x0800accc
- 800a55c:	0800acd6 	.word	0x0800acd6
+ 800a558:	0800ac8c 	.word	0x0800ac8c
+ 800a55c:	0800ac96 	.word	0x0800ac96
  800a560:	00000000 	.word	0x00000000
  800a564:	0800a317 	.word	0x0800a317
- 800a568:	0800acd2 	.word	0x0800acd2
+ 800a568:	0800ac92 	.word	0x0800ac92
 
 0800a56c <_printf_common>:
  800a56c:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -27409,8 +27409,8 @@ USBH_StatusTypeDef USBH_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800a878:	f104 0619 	add.w	r6, r4, #25
  800a87c:	e7f5      	b.n	800a86a <_printf_i+0x222>
  800a87e:	bf00      	nop
- 800a880:	0800acdd 	.word	0x0800acdd
- 800a884:	0800acee 	.word	0x0800acee
+ 800a880:	0800ac9d 	.word	0x0800ac9d
+ 800a884:	0800acae 	.word	0x0800acae
 
 0800a888 <__sflush_r>:
  800a888:	f9b1 200c 	ldrsh.w	r2, [r1, #12]
