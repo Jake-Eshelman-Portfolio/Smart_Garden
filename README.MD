@@ -1,4 +1,4 @@
-# Plant Watering System with nRF52dk and FreeRTOS
+# Plant Watering System with STM32F429 and FreeRTOS
 
 ## Overview
 This project automates the watering of plants using an STM32F429 Development Kit and FreeRTOS. 
