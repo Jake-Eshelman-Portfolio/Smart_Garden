@@ -58,6 +58,7 @@
 extern HCD_HandleTypeDef hhcd_USB_OTG_HS;
 extern DMA2D_HandleTypeDef hdma2d;
 extern LTDC_HandleTypeDef hltdc;
+extern RTC_HandleTypeDef hrtc;
 extern TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN EV */
@@ -161,6 +162,20 @@ void DebugMon_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles RTC wake-up interrupt through EXTI line 22.
+  */
+void RTC_WKUP_IRQHandler(void)
+{
+  /* USER CODE BEGIN RTC_WKUP_IRQn 0 */
+
+  /* USER CODE END RTC_WKUP_IRQn 0 */
+  HAL_RTCEx_WakeUpTimerIRQHandler(&hrtc);
+  /* USER CODE BEGIN RTC_WKUP_IRQn 1 */
+
+  /* USER CODE END RTC_WKUP_IRQn 1 */
+}
 
 /**
   * @brief This function handles TIM6 global interrupt, DAC1 and DAC2 underrun error interrupts.

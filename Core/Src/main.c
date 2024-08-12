@@ -102,6 +102,12 @@ int _write(int file, char *ptr, int len)
   return len;
 }
 
+// Called each time HAL wakeup timer expires
+void HAL_RTCEx_WakeUpTimerEventCallback(RTC_HandleTypeDef *hrtc)
+{
+    printf("RTC Wake-up!\r\n");
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -147,8 +153,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Motor_Init();
   Motor_SetSpeed(100);
+  __enable_irq();
 
   printf("Initialization complete!\r\n");
+
 
   //sensor_diagnostic();
 
@@ -191,14 +199,29 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  printf("in loop \n");
+	  HAL_SuspendTick();
+	  if (HAL_RTCEx_SetWakeUpTimer_IT(&hrtc, 4096, RTC_WAKEUPCLOCK_RTCCLK_DIV16) != HAL_OK)
+	  {
+	    Error_Handler();
+	  }
+	  HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+	  HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
+	  SystemClock_Config();
+	  HAL_ResumeTick();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  //printf("entering sleep mode \r\n");
+	  //HAL_SuspendTick();
+	  //HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON,PWR_SLEEPENTRY_WFI);
+	  //HAL_ResumeTick();
 
 	  //Motor_Forward();
-	  HAL_Delay(5000);
+	  //HAL_Delay(5000);
 	  //read_temperature();
-	  read_capacitance();
+	  //read_capacitance();
 	  //Motor_Stop();
 	  //HAL_Delay(2000);
   }
@@ -366,6 +389,11 @@ static void MX_DMA2D_Init(void)
 
 }
 
+/**
+  * @brief I2C3 Initialization Function
+  * @param None
+  * @retval None
+  */
 
 /**
   * @brief LTDC Initialization Function
@@ -489,10 +517,8 @@ static void MX_RTC_Init(void)
 
   /** Enable the WakeUp
   */
-  if (HAL_RTCEx_SetWakeUpTimer(&hrtc, 0, RTC_WAKEUPCLOCK_RTCCLK_DIV16) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  __HAL_RTC_WAKEUPTIMER_CLEAR_FLAG(&hrtc, RTC_FLAG_WUTF);
+
   /* USER CODE BEGIN RTC_Init 2 */
 
   /* USER CODE END RTC_Init 2 */

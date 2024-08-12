@@ -70,6 +70,7 @@ https://drive.google.com/file/d/1gY22B0iSNcU8m8TwlX8VpE6k7BG8msSk/view?usp=drive
 - L298N Motor Driver Datasheet: https://components101.com/sites/default/files/component_datasheet/L298N-Motor-Driver-Datasheet.pdf
 - STM32F439 HAL user manual: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__gpio__exported__functions__group2.html
 - STM32F429 HAL user manual: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__i2c__exported__functions__group2.html
+- STM32 HAL description chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.st.com/resource/en/user_manual/um2442-description-of-stm32wb-hal-and-lowlayer-drivers-stmicroelectronics.pdf
 
 
 
