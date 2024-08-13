@@ -102,10 +102,34 @@ int _write(int file, char *ptr, int len)
   return len;
 }
 
-// Called each time HAL wakeup timer expires
+/**
+  * @brief  Callback for RTC expiration. Deactivate the timer and reconfig the system clock and systick timer
+  * @param hrtc: Instance of the realtime clock (rtc)
+  */
 void HAL_RTCEx_WakeUpTimerEventCallback(RTC_HandleTypeDef *hrtc)
 {
     printf("RTC Wake-up!\r\n");
+}
+
+/**
+  * @brief  Accepts an amount of time to sleep, sets RTC timer, and enters sleep mode
+  * @param  sleep_time: Amount of time to sleep (seconds)
+  * @retval None
+  */
+void set_sleepmode(int sleep_time)
+{
+	uint64_t sleep_ticks = sleep_time * (32768 / 16);
+	HAL_SuspendTick();
+
+	if (HAL_RTCEx_SetWakeUpTimer_IT(&hrtc, sleep_ticks, RTC_WAKEUPCLOCK_RTCCLK_DIV16) != HAL_OK)
+	{
+	  Error_Handler();
+	}
+
+	HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+	HAL_RTCEx_DeactivateWakeUpTimer(hrtc);
+	SystemClock_Config();
+	HAL_ResumeTick();
 }
 
 /* USER CODE END 0 */
@@ -200,15 +224,8 @@ int main(void)
   while (1)
   {
 	  printf("in loop \n");
-	  HAL_SuspendTick();
-	  if (HAL_RTCEx_SetWakeUpTimer_IT(&hrtc, 4096, RTC_WAKEUPCLOCK_RTCCLK_DIV16) != HAL_OK)
-	  {
-	    Error_Handler();
-	  }
-	  HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-	  HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
-	  SystemClock_Config();
-	  HAL_ResumeTick();
+	  set_sleepmode(3);
+
 
     /* USER CODE END WHILE */
 
