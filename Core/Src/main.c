@@ -127,7 +127,7 @@ void set_sleepmode(int sleep_time)
 	}
 
 	HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-	HAL_RTCEx_DeactivateWakeUpTimer(hrtc);
+	HAL_RTCEx_DeactivateWakeUpTimer(&hrtc);
 	SystemClock_Config();
 	HAL_ResumeTick();
 }
