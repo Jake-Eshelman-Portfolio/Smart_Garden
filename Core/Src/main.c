@@ -132,6 +132,38 @@ void set_sleepmode(int sleep_time)
 	HAL_ResumeTick();
 }
 
+void water_plant()
+{
+	uint16_t current_capacitance = read_capacitance();
+	uint8_t max_counter = 0;
+
+	if(current_capacitance > 300)
+	{
+		printf("Plant does not need to be watered, returning to sleep \n");
+	}
+
+	// Pulse motor for 5 seconds, read capacitance to check if we have reached correct level
+	// Max of 5 runs to stop motor from
+	while(current_capacitance < 300 && max_counter < 10 && current_capacitance != I2C_READ_FAIL)
+	{
+		  Motor_Forward();
+		  HAL_Delay(3000);
+		  Motor_Stop();
+		  current_capacitance = read_capacitance();
+		  max_counter++;
+	}
+	if(max_counter > 10)
+	{
+		printf("Did not achieve correct water level in motor cycles \n");
+	}
+	else
+	{
+		printf("Plant reached correct water level, returning to sleep \n");
+	}
+	fflush(stdout);
+
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -180,6 +212,7 @@ int main(void)
   __enable_irq();
 
   printf("Initialization complete!\r\n");
+  HAL_Delay(5000);
 
 
   //sensor_diagnostic();
@@ -223,24 +256,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  printf("in loop \n");
-	  set_sleepmode(3);
-
-
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-	  //printf("entering sleep mode \r\n");
-	  //HAL_SuspendTick();
-	  //HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON,PWR_SLEEPENTRY_WFI);
-	  //HAL_ResumeTick();
-
-	  //Motor_Forward();
-	  //HAL_Delay(5000);
-	  //read_temperature();
-	  //read_capacitance();
-	  //Motor_Stop();
-	  //HAL_Delay(2000);
+	  set_sleepmode(10);
+	  water_plant();
   }
   /* USER CODE END 3 */
 }

@@ -116,10 +116,11 @@ void read_temperature()
   * @param None
   * @retval None
   */
-void read_capacitance()
+int16_t read_capacitance()
 {
 	uint8_t capacitance_data[2];
 	uint8_t busy_data = 1;
+	int16_t combined_capacitance;
 
 	HAL_StatusTypeDef status;
 
@@ -128,7 +129,7 @@ void read_capacitance()
 
 	if (status != HAL_OK) {
 		printf("Initial capacitance read failed with status: %d \r\n", status);
-		return;
+		return I2C_READ_FAIL;
 	}
 
     // Wait for measurement to complete
@@ -142,13 +143,15 @@ void read_capacitance()
 	status = HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1, CAPACITANCE_REGISTER, I2C_MEMADD_SIZE_8BIT, capacitance_data, CAPACITANCE_READ_SIZE, HAL_MAX_DELAY);
 	if (status == HAL_OK)
 	{
-		uint16_t combinted_capacitance = capacitance_data[0] << 8 | capacitance_data[1];
-		printf("Capacitance: %d \r\n", combinted_capacitance);
+		combined_capacitance = capacitance_data[0] << 8 | capacitance_data[1];
+		printf("Capacitance: %d \r\n", combined_capacitance);
 	}
 	else
 	{
 		printf("Capacitance read failed with status: %d \r\n", status);
+		return I2C_READ_FAIL;
 	}
+	return combined_capacitance;
 }
 
 void sensor_diagnostic()

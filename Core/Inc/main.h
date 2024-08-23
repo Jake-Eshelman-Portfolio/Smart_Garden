@@ -55,6 +55,9 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+typedef enum {
+	I2C_READ_FAIL = -1
+}error_types;
 
 /* USER CODE END EFP */
 
