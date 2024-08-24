@@ -49,8 +49,6 @@ https://drive.google.com/file/d/12AGUKqzUinZLPr214EPg7lUeSSH95k2j/view?usp=shari
 - Currently the motor driver is connected and functioning correctly. Still waiting on the moisture sensor to arrive to build out feedback / control systems (8/1/24).
 https://drive.google.com/file/d/1gY22B0iSNcU8m8TwlX8VpE6k7BG8msSk/view?usp=drive_link
 
-### Usage
-
 ## Future Enhancements
 - LCD screen for displaying plant watering status
 - IoT / mobile app component for managing plants while away
