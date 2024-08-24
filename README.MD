@@ -57,8 +57,8 @@ The skills I wanted to work on in this project are analog signal handling, learn
 ## Progress
 - Video folder: https://drive.google.com/drive/u/0/folders/1cJCFLaSTaK_Rhd7NLPWWA5U1GQ5bJ7LP
 
-- All components working correctly! (8/23/24)
-https://drive.google.com/file/d/16m2jkofcs-Lb92_iRYPpb9791QKs5I2-/view?usp=sharing
+- Complete working demo! (8/23/24)
+https://drive.google.com/file/d/12AGUKqzUinZLPr214EPg7lUeSSH95k2j/view?usp=sharing
 
 - Currently the motor driver is connected and functioning correctly. Still waiting on the moisture sensor to arrive to build out feedback / control systems (8/1/24).
 https://drive.google.com/file/d/1gY22B0iSNcU8m8TwlX8VpE6k7BG8msSk/view?usp=drive_link
