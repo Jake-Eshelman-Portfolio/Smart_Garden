@@ -22,8 +22,6 @@ The skills I wanted to work on in this project were learning STM microctrollers,
 - Fritzing diagram included: diagrams/breadbiard_diagram.fzz
 ![Fritzing Breadboard Diagram](images/smart_garden_breadboard_diagram.png)
 
-### Dependencies
-
 ### Building and Flashing
 - The project was built using STM32CubeMX with default settings for the board: STM32F429ZITx - STM32F429I-DISC1 except for PWM, GPIO, and I2C changes.
     - I2C3 was added with GPIO pullups configured. 
