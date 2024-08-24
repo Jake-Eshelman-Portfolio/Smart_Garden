@@ -1,15 +1,13 @@
-# Plant Watering System with STM32F429 and FreeRTOS
+# Plant Watering System with the STM32F429 MCU
 
 ## Overview
-This project automates the watering of plants using an STM32F429 Development Kit and FreeRTOS. 
-It utilizes moisture sensors to monitor soil and controls a water pump to irrigate the plants when necessary. 
-The skills I wanted to work on in this project are analog signal handling, learning FreeRTOS and STM microcontrollers, motor control, and power supply.
+This project automates the watering of plants using an STM32F429 Development Kit, PWM controlled DC motor, and an I2C moisture sensor.
+The skills I wanted to work on in this project were learning STM microctrollers, working with PWM signals, I2C communication, and power supplies.
 
 ## Features
-- Soil moisture monitoring
-- Automated watering using a step-controlled motor
-- FreeRTOS for task management and real-time operation
-- Integration of ADC for sensor data acquisition
+- Soil moisture monitoring 
+- Automated watering using a step-controlled motor and a control system to maintain moisture levels
+- Configurable low-power mode and RTC-interrupt generation
 
 ## Components
 - STM32F429 Development Kit (https://www.digikey.com/en/products/detail/stmicroelectronics/STM32F429I-DISC1/5731713) 
@@ -17,7 +15,6 @@ The skills I wanted to work on in this project are analog signal handling, learn
 - Small water pump -- Gikfun 12V DC Dosing Pump Peristaltic (Amazon)
     - Tubing -- Gikfun 9.84 Ft 2mm x 4mm tubing (Amazon)
     - Power supply --  Kastar AC power adapter 12V 6A (Amazon)
-      - Added in-line 2A fuse 
 - L298N motor driver (Amazon)
 
 ## Schematic
@@ -25,19 +22,10 @@ The skills I wanted to work on in this project are analog signal handling, learn
 - Fritzing diagram included: diagrams/breadbiard_diagram.fzz
 ![Fritzing Breadboard Diagram](images/smart_garden_breadboard_diagram.png)
 
-
-
-## Software
-
-
-
 ### Dependencies
 
-
 ### Building and Flashing
-- The project was built using STM32CubeMX with default settings for the board: STM32F429ZITx - STM32F429I-DISC1 except for ADC, GPIO, and I2C changes.
-    - ADC 1 was enabled with mode IN5 added.
-        - Input: PA5
+- The project was built using STM32CubeMX with default settings for the board: STM32F429ZITx - STM32F429I-DISC1 except for PWM, GPIO, and I2C changes.
     - I2C3 was added with GPIO pullups configured. 
         - SCL: PA8 
         - SDA: PC9
@@ -66,16 +54,16 @@ https://drive.google.com/file/d/1gY22B0iSNcU8m8TwlX8VpE6k7BG8msSk/view?usp=drive
 ### Usage
 
 ## Future Enhancements
-- LED screen for displaying plant watering status
+- LCD screen for displaying plant watering status
 - IoT / mobile app component for managing plants while away
 - Extension to handling multiple plants
 - Custom PCB / Case
 
 ## External Documentation
 - L298N Motor Driver Datasheet: https://components101.com/sites/default/files/component_datasheet/L298N-Motor-Driver-Datasheet.pdf
-- STM32F439 HAL user manual: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__gpio__exported__functions__group2.html
-- STM32F429 HAL user manual: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__i2c__exported__functions__group2.html
-- STM32 HAL description chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.st.com/resource/en/user_manual/um2442-description-of-stm32wb-hal-and-lowlayer-drivers-stmicroelectronics.pdf
+- STM32F4 HAL and low-layer driver description: https://www.st.com/resource/en/user_manual/um1725-description-of-stm32f4-hal-and-lowlayer-drivers-stmicroelectronics.pdf
+- STM32F4 HAL user manual GPIO: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__gpio__exported__functions__group2.html
+- STM32F4 HAL user manual I2C: https://www.disca.upv.es/aperles/arm_cortex_m3/llibre/st/STM32F439xx_User_Manual/group__i2c__exported__functions__group2.html
 
 
 
