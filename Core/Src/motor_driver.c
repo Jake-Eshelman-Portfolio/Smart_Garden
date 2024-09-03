@@ -18,16 +18,17 @@
 
 
 // Global variables
-extern TIM_HandleTypeDef htim9;  // Assuming TIM9 for PWM
+extern TIM_HandleTypeDef htim9;  
 
 void Motor_Init(void)
 {
-    HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_1);  // Start PWM on PE5
+    // Start PWM on PE5
+    HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_1);  
 }
 
 void Motor_SetSpeed(uint16_t speed)
 {
-    // Assuming 16-bit timer, adjust if different
+    // 16-bit timer
     __HAL_TIM_SET_COMPARE(&htim9, TIM_CHANNEL_1, speed);
 }
 

@@ -4,13 +4,7 @@
  *  Created on: Aug 1, 2024
  *      Author: jakee
  */
-/*
-#define G6_GPIO_Port GPIOC
-#define I2C3_SDA_Pin GPIO_PIN_9
-#define I2C3_SDA_GPIO_Port GPIOC
-#define I2C3_SCL_Pin GPIO_PIN_8
- *
- */
+
 #include "i2c_driver.h"
 #include "stm32f4xx_hal.h"
 #include "main.h"
@@ -27,16 +21,8 @@ I2C_HandleTypeDef hi2c3;
   */
 void MX_I2C3_Init(void)
 {
-
-  /* USER CODE BEGIN I2C3_Init 0 */
-
-  /* USER CODE END I2C3_Init 0 */
-
-  /* USER CODE BEGIN I2C3_Init 1 */
-
-  /* USER CODE END I2C3_Init 1 */
   hi2c3.Instance = I2C3;
-  hi2c3.Init.ClockSpeed = 30000; // changed from 100000
+  hi2c3.Init.ClockSpeed = 30000; 
   hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c3.Init.OwnAddress1 = 0;
   hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -62,10 +48,6 @@ void MX_I2C3_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN I2C3_Init 2 */
-
-  /* USER CODE END I2C3_Init 2 */
-
 }
 
 /**
@@ -94,7 +76,7 @@ void read_temperature()
     while (busy_data == 1)
     {
         HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1 , BUSY_REGISTER, I2C_MEMADD_SIZE_8BIT, &busy_data, BUSY_DATA_SIZE, HAL_MAX_DELAY);
-        HAL_Delay(10); // Short delay to avoid flooding the I2C bus -- add a timeout here too probably
+        HAL_Delay(10); // Short delay to avoid flooding the I2C bus
     }
 
 	// Read the updated temperature value and print it on success
@@ -114,7 +96,7 @@ void read_temperature()
 /**
   * @brief Function to read the capacitance from the sensor
   * @param None
-  * @retval None
+  * @retval int16_t as the capactiance from the sensor
   */
 int16_t read_capacitance()
 {
@@ -136,7 +118,7 @@ int16_t read_capacitance()
     while (busy_data == 1)
     {
         HAL_I2C_Mem_Read(&hi2c3, SENSOR_ADDRESS << 1 , BUSY_REGISTER, I2C_MEMADD_SIZE_8BIT, &busy_data, BUSY_DATA_SIZE, HAL_MAX_DELAY);
-        HAL_Delay(10); // Short delay to avoid flooding the I2C bus -- add a timeout here too probably
+        HAL_Delay(10); 
     }
 
 	// Read the updated capacitance value and print it on success
@@ -178,45 +160,3 @@ void sensor_diagnostic()
         printf("Light read failed, status: %d\r\n", status);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

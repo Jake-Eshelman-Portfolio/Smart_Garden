@@ -1,51 +1,12 @@
-/* USER CODE BEGIN Header */
-/**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
-/* USER CODE END Header */
-/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
 #include "usb_host.h"
 
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 #include "motor_driver.h"
 #include "i2c_driver.h"
 #include <stdio.h>
 #include <string.h>
 
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 
 CRC_HandleTypeDef hcrc;
@@ -66,11 +27,8 @@ UART_HandleTypeDef huart1;
 SDRAM_HandleTypeDef hsdram1;
 
 osThreadId defaultTaskHandle;
-/* USER CODE BEGIN PV */
 
 extern UART_HandleTypeDef huart1;
-
-/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -87,14 +45,7 @@ static void MX_TIM9_Init(void);
 static void MX_RTC_Init(void);
 void StartDefaultTask(void const * argument);
 
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-extern UART_HandleTypeDef huart1;  // Assuming you're using UART1
+extern UART_HandleTypeDef huart1;
 
 int _write(int file, char *ptr, int len)
 {
@@ -132,19 +83,24 @@ void set_sleepmode(int sleep_time)
 	HAL_ResumeTick();
 }
 
+/**
+  * @brief  Checks the soil capacitance, waters plant in pulses until max cycles or set moisture level is reached
+  * @param  None
+  * @retval None
+  */
 void water_plant()
 {
 	uint16_t current_capacitance = read_capacitance();
 	uint8_t max_counter = 0;
 
-	if(current_capacitance > 315)
+	if(current_capacitance > WATER_LEVEL)
 	{
 		printf("Plant does not need to be watered, returning to sleep \n");
 	}
 
-	// Pulse motor for 5 seconds, read capacitance to check if we have reached correct level
-	// Max of 5 runs to stop motor from
-	while(current_capacitance < 315 && max_counter < 10 && current_capacitance != I2C_READ_FAIL)
+	// Pulse motor for 3 seconds, read capacitance to check if we have reached correct level
+	// Max of 10 runs to stop motor from running indefinitely 
+	while(current_capacitance < WATER_LEVEL && max_counter < MAX_MOTOR_CYCLES && current_capacitance != I2C_READ_FAIL)
 	{
 		  Motor_Forward();
 		  HAL_Delay(3000);
@@ -164,36 +120,16 @@ void water_plant()
 
 }
 
-/* USER CODE END 0 */
-
 /**
   * @brief  The application entry point.
   * @retval int
   */
 int main(void)
 {
-
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
   MX_CRC_Init();
@@ -206,60 +142,15 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM9_Init();
   MX_RTC_Init();
-  /* USER CODE BEGIN 2 */
   Motor_Init();
   Motor_SetSpeed(100);
   __enable_irq();
 
-  printf("Initialization complete!\r\n");
-  HAL_Delay(30000);
-
-
-  //sensor_diagnostic();
-
-
-  //Motor_SetSpeed(500);  // Set speed (0-65535 for 16-bit timer)
-
-  /* USER CODE END 2 */
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  //osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 4096);
-  //defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* Start scheduler */
-  //osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
 	  set_sleepmode(10);
 	  water_plant();
   }
-  /* USER CODE END 3 */
 }
 
 /**
@@ -315,16 +206,7 @@ void SystemClock_Config(void)
   */
 static void MX_ADC1_Init(void)
 {
-
-  /* USER CODE BEGIN ADC1_Init 0 */
-
-  /* USER CODE END ADC1_Init 0 */
-
   ADC_ChannelConfTypeDef sConfig = {0};
-
-  /* USER CODE BEGIN ADC1_Init 1 */
-
-  /* USER CODE END ADC1_Init 1 */
 
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
@@ -354,9 +236,6 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN ADC1_Init 2 */
-
-  /* USER CODE END ADC1_Init 2 */
 
 }
 
@@ -367,23 +246,11 @@ static void MX_ADC1_Init(void)
   */
 static void MX_CRC_Init(void)
 {
-
-  /* USER CODE BEGIN CRC_Init 0 */
-
-  /* USER CODE END CRC_Init 0 */
-
-  /* USER CODE BEGIN CRC_Init 1 */
-
-  /* USER CODE END CRC_Init 1 */
   hcrc.Instance = CRC;
   if (HAL_CRC_Init(&hcrc) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN CRC_Init 2 */
-
-  /* USER CODE END CRC_Init 2 */
-
 }
 
 /**
@@ -393,14 +260,6 @@ static void MX_CRC_Init(void)
   */
 static void MX_DMA2D_Init(void)
 {
-
-  /* USER CODE BEGIN DMA2D_Init 0 */
-
-  /* USER CODE END DMA2D_Init 0 */
-
-  /* USER CODE BEGIN DMA2D_Init 1 */
-
-  /* USER CODE END DMA2D_Init 1 */
   hdma2d.Instance = DMA2D;
   hdma2d.Init.Mode = DMA2D_M2M;
   hdma2d.Init.ColorMode = DMA2D_OUTPUT_ARGB8888;
@@ -417,10 +276,6 @@ static void MX_DMA2D_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN DMA2D_Init 2 */
-
-  /* USER CODE END DMA2D_Init 2 */
-
 }
 
 /**
@@ -436,16 +291,8 @@ static void MX_DMA2D_Init(void)
   */
 static void MX_LTDC_Init(void)
 {
-
-  /* USER CODE BEGIN LTDC_Init 0 */
-
-  /* USER CODE END LTDC_Init 0 */
-
   LTDC_LayerCfgTypeDef pLayerCfg = {0};
 
-  /* USER CODE BEGIN LTDC_Init 1 */
-
-  /* USER CODE END LTDC_Init 1 */
   hltdc.Instance = LTDC;
   hltdc.Init.HSPolarity = LTDC_HSPOLARITY_AL;
   hltdc.Init.VSPolarity = LTDC_VSPOLARITY_AL;
@@ -485,9 +332,6 @@ static void MX_LTDC_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN LTDC_Init 2 */
-
-  /* USER CODE END LTDC_Init 2 */
 
 }
 
@@ -498,17 +342,8 @@ static void MX_LTDC_Init(void)
   */
 static void MX_RTC_Init(void)
 {
-
-  /* USER CODE BEGIN RTC_Init 0 */
-
-  /* USER CODE END RTC_Init 0 */
-
   RTC_TimeTypeDef sTime = {0};
   RTC_DateTypeDef sDate = {0};
-
-  /* USER CODE BEGIN RTC_Init 1 */
-
-  /* USER CODE END RTC_Init 1 */
 
   /** Initialize RTC Only
   */
@@ -523,10 +358,6 @@ static void MX_RTC_Init(void)
   {
     Error_Handler();
   }
-
-  /* USER CODE BEGIN Check_RTC_BKUP */
-
-  /* USER CODE END Check_RTC_BKUP */
 
   /** Initialize RTC and set the Time and Date
   */
@@ -552,11 +383,6 @@ static void MX_RTC_Init(void)
   /** Enable the WakeUp
   */
   __HAL_RTC_WAKEUPTIMER_CLEAR_FLAG(&hrtc, RTC_FLAG_WUTF);
-
-  /* USER CODE BEGIN RTC_Init 2 */
-
-  /* USER CODE END RTC_Init 2 */
-
 }
 
 /**
@@ -566,14 +392,6 @@ static void MX_RTC_Init(void)
   */
 static void MX_SPI5_Init(void)
 {
-
-  /* USER CODE BEGIN SPI5_Init 0 */
-
-  /* USER CODE END SPI5_Init 0 */
-
-  /* USER CODE BEGIN SPI5_Init 1 */
-
-  /* USER CODE END SPI5_Init 1 */
   /* SPI5 parameter configuration*/
   hspi5.Instance = SPI5;
   hspi5.Init.Mode = SPI_MODE_MASTER;
@@ -591,10 +409,6 @@ static void MX_SPI5_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN SPI5_Init 2 */
-
-  /* USER CODE END SPI5_Init 2 */
-
 }
 
 /**
@@ -604,17 +418,9 @@ static void MX_SPI5_Init(void)
   */
 static void MX_TIM1_Init(void)
 {
-
-  /* USER CODE BEGIN TIM1_Init 0 */
-
-  /* USER CODE END TIM1_Init 0 */
-
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
 
-  /* USER CODE BEGIN TIM1_Init 1 */
-
-  /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -637,10 +443,6 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN TIM1_Init 2 */
-
-  /* USER CODE END TIM1_Init 2 */
-
 }
 
 /**
@@ -650,16 +452,8 @@ static void MX_TIM1_Init(void)
   */
 static void MX_TIM9_Init(void)
 {
-
-  /* USER CODE BEGIN TIM9_Init 0 */
-
-  /* USER CODE END TIM9_Init 0 */
-
   TIM_OC_InitTypeDef sConfigOC = {0};
 
-  /* USER CODE BEGIN TIM9_Init 1 */
-
-  /* USER CODE END TIM9_Init 1 */
   htim9.Instance = TIM9;
   htim9.Init.Prescaler = 71;
   htim9.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -678,9 +472,7 @@ static void MX_TIM9_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN TIM9_Init 2 */
 
-  /* USER CODE END TIM9_Init 2 */
   HAL_TIM_MspPostInit(&htim9);
 
 }
@@ -692,14 +484,6 @@ static void MX_TIM9_Init(void)
   */
 static void MX_USART1_UART_Init(void)
 {
-
-  /* USER CODE BEGIN USART1_Init 0 */
-
-  /* USER CODE END USART1_Init 0 */
-
-  /* USER CODE BEGIN USART1_Init 1 */
-
-  /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
   huart1.Init.BaudRate = 115200;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
@@ -712,26 +496,12 @@ static void MX_USART1_UART_Init(void)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USART1_Init 2 */
-
-  /* USER CODE END USART1_Init 2 */
-
 }
 
 /* FMC initialization function */
 static void MX_FMC_Init(void)
 {
-
-  /* USER CODE BEGIN FMC_Init 0 */
-
-  /* USER CODE END FMC_Init 0 */
-
   FMC_SDRAM_TimingTypeDef SdramTiming = {0};
-
-  /* USER CODE BEGIN FMC_Init 1 */
-
-  /* USER CODE END FMC_Init 1 */
-
   /** Perform the SDRAM1 memory initialization sequence
   */
   hsdram1.Instance = FMC_SDRAM_DEVICE;
@@ -759,10 +529,6 @@ static void MX_FMC_Init(void)
   {
     Error_Handler( );
   }
-
-  /* USER CODE BEGIN FMC_Init 2 */
-
-  /* USER CODE END FMC_Init 2 */
 }
 
 /**
@@ -773,8 +539,6 @@ static void MX_FMC_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-/* USER CODE BEGIN MX_GPIO_Init_1 */
-/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
@@ -849,27 +613,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-/* USER CODE BEGIN MX_GPIO_Init_2 */
-/* USER CODE END MX_GPIO_Init_2 */
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
-
-/* USER CODE BEGIN Header_StartDefaultTask */
 /**
   * @brief  Function implementing the defaultTask thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
-  /* USER CODE BEGIN 5 */
   /* Infinite loop */
   for(;;)
   {
@@ -888,15 +642,9 @@ void StartDefaultTask(void const * argument)
   */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  /* USER CODE BEGIN Callback 0 */
-
-  /* USER CODE END Callback 0 */
   if (htim->Instance == TIM6) {
     HAL_IncTick();
   }
-  /* USER CODE BEGIN Callback 1 */
-
-  /* USER CODE END Callback 1 */
 }
 
 /**
@@ -905,13 +653,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
   while (1)
   {
   }
-  /* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
