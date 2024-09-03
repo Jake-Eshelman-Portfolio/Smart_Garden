@@ -24,7 +24,7 @@ extern I2C_HandleTypeDef hi2c3;
 void MX_I2C3_Init(void);
 void read_temperature(void);
 void sensor_diagnostic(void);
-void read_capacitance(void);
+int16_t read_capacitance(void);
 
 
 
