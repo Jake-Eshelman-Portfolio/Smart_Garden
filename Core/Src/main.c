@@ -137,14 +137,14 @@ void water_plant()
 	uint16_t current_capacitance = read_capacitance();
 	uint8_t max_counter = 0;
 
-	if(current_capacitance > 300)
+	if(current_capacitance > 315)
 	{
 		printf("Plant does not need to be watered, returning to sleep \n");
 	}
 
 	// Pulse motor for 5 seconds, read capacitance to check if we have reached correct level
 	// Max of 5 runs to stop motor from
-	while(current_capacitance < 300 && max_counter < 10 && current_capacitance != I2C_READ_FAIL)
+	while(current_capacitance < 315 && max_counter < 10 && current_capacitance != I2C_READ_FAIL)
 	{
 		  Motor_Forward();
 		  HAL_Delay(3000);
@@ -212,7 +212,7 @@ int main(void)
   __enable_irq();
 
   printf("Initialization complete!\r\n");
-  HAL_Delay(5000);
+  HAL_Delay(30000);
 
 
   //sensor_diagnostic();
